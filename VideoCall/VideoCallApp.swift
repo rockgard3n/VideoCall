@@ -19,9 +19,9 @@ struct VideoCallApp: App {
     
     private var client: StreamVideo
     private let apiKey: String = "mmhfdzb5evj2" // The API key can be found in the Credentials section
-    private let userId: String = "Cad_Bane" // The User Id can be found in the Credentials section
-    private let token: String = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiQ2FkX0JhbmUiLCJpc3MiOiJodHRwczovL3Byb250by5nZXRzdHJlYW0uaW8iLCJzdWIiOiJ1c2VyL0NhZF9CYW5lIiwiaWF0IjoxNzA3MzUxNjc1LCJleHAiOjE3MDc5NTY0ODB9.qmdU-x4y_fOdJlW6_Or9Gk-wc2oCdoIA_JFi3A_YoHE" // The Token can be found in the Credentials section
-    private let callId: String = "5v2Gw9BBZrMs" // The CallId can be found in the Credentials section
+    private let userId: String = "Exar_Kun" // The User Id can be found in the Credentials section
+    private let token: String = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiRXhhcl9LdW4iLCJpc3MiOiJodHRwczovL3Byb250by5nZXRzdHJlYW0uaW8iLCJzdWIiOiJ1c2VyL0V4YXJfS3VuIiwiaWF0IjoxNzA3MzUzMTA1LCJleHAiOjE3MDc5NTc5MTB9.w_mJEtX9HqC0RHH5aUaZsLHHspLh3aT78GM5GtftCcM" // The Token can be found in the Credentials section
+    private let callId: String = "uOo9Yie6GjD5" // The CallId can be found in the Credentials section
 
     init() {
         let user = User(
