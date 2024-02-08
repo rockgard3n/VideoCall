@@ -11,22 +11,18 @@ import StreamVideoSwiftUI
 
 @main
 struct VideoCallApp: App {
-    @State var call: Call
-    @ObservedObject var state: CallState
-    @State var callCreated: Bool = false
+    @ObservedObject var viewModel: CallViewModel
 
-    //for a demo go to this link: https://getstream.io/video/sdk/ios/tutorial/video-calling/ then step 3 and there is sample api keys and tokens and stuff
-    
     private var client: StreamVideo
     private let apiKey: String = "mmhfdzb5evj2" // The API key can be found in the Credentials section
-    private let userId: String = "Exar_Kun" // The User Id can be found in the Credentials section
-    private let token: String = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiRXhhcl9LdW4iLCJpc3MiOiJodHRwczovL3Byb250by5nZXRzdHJlYW0uaW8iLCJzdWIiOiJ1c2VyL0V4YXJfS3VuIiwiaWF0IjoxNzA3MzUzMTA1LCJleHAiOjE3MDc5NTc5MTB9.w_mJEtX9HqC0RHH5aUaZsLHHspLh3aT78GM5GtftCcM" // The Token can be found in the Credentials section
-    private let callId: String = "uOo9Yie6GjD5" // The CallId can be found in the Credentials section
+    private let userId: String = "Quinlan_Vos" // The User Id can be found in the Credentials section
+    private let token: String = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiUXVpbmxhbl9Wb3MiLCJpc3MiOiJodHRwczovL3Byb250by5nZXRzdHJlYW0uaW8iLCJzdWIiOiJ1c2VyL1F1aW5sYW5fVm9zIiwiaWF0IjoxNzA3NDIxODY4LCJleHAiOjE3MDgwMjY2NzN9.t7k28W9aX-JnuRtCa7q0c5MLG9gqHDA-tD2nOq7BMBU" // The Token can be found in the Credentials section
+    private let callId: String = "cCb52hBvMXvG" // The CallId can be found in the Credentials section
 
     init() {
         let user = User(
             id: userId,
-            name: "BOB SAGET", // name and imageURL are used in the UI
+            name: "Martin", // name and imageURL are used in the UI
             imageURL: .init(string: "https://getstream.io/static/2796a305dd07651fcceb4721a94f4505/a3911/martin-mitrevski.webp")
         )
 
@@ -37,34 +33,21 @@ struct VideoCallApp: App {
             token: .init(stringLiteral: token)
         )
 
-        // Initialize the call object
-        let call = client.call(callType: "default", callId: callId)
-
-        self.call = call
-        self.state = call.state
+        self.viewModel = .init()
     }
-    
 
     var body: some Scene {
         WindowGroup {
             VStack {
-                if callCreated {
-                    ZStack {
-                        ParticipantsView(
-                            call: call,
-                            participants: call.state.remoteParticipants,
-                            onChangeTrackVisibility: changeTrackVisibility(_:isVisible:)
-                        )
-                        FloatingParticipantView(participant: call.state.localParticipant)
-                    }
+                if viewModel.call != nil {
+                    CallContainer(viewFactory: DefaultViewFactory.shared, viewModel: viewModel)
                 } else {
                     Text("loading...")
                 }
             }.onAppear {
                 Task {
-                    guard callCreated == false else { return }
-                    try await call.join(create: true)
-                    callCreated = true
+                    guard viewModel.call == nil else { return }
+                    viewModel.joinCall(callType: .default, callId: callId)
                 }
             }
         }
@@ -74,12 +57,12 @@ struct VideoCallApp: App {
     /// - Parameters:
     ///  - participant: the participant whose track visibility would be changed.
     ///  - isVisible: whether the track should be visible.
-    private func changeTrackVisibility(_ participant: CallParticipant?, isVisible: Bool) {
-        guard let participant else { return }
-        Task {
-            await call.changeTrackVisibility(for: participant, isVisible: isVisible)
-        }
-    }
+//    private func changeTrackVisibility(_ participant: CallParticipant?, isVisible: Bool) {
+//        guard let participant else { return }
+//        Task {
+//            await call.changeTrackVisibility(for: participant, isVisible: isVisible)
+//        }
+//    }
 }
 
 struct ParticipantsView: View {
